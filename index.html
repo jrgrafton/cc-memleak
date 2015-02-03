@@ -1,7 +1,7 @@
 <html>
 <h1>Chromecast Memory Leak Tests</h1>
 <h2>Video respawn count: <span id="vrc">0</span><h2>
-<body>
+<body style="background:white;">
 
   <script>
   var videoString = '<video id="video" width="640" height="320" ' +
@@ -26,9 +26,11 @@
       videoElement.play();
 
       // Bind to end event
-      videoElement.onended = function(){ 
-        loadVideo();
-        document.getElementById("vrc").innerHTML = ++respawnCount; 
+      videoElement.onended = function() {
+        setTimeout(function() {
+          loadVideo();
+          document.getElementById("vrc").innerHTML = ++respawnCount; 
+        }, 2000); 
       };
     }
   }
