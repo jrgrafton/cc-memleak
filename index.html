@@ -23,10 +23,12 @@
       videoElement = document.getElementById("video");
 
       // Play video
+      videoElement.load();
       videoElement.play();
 
       // Bind to end event
       videoElement.onended = function() {
+        this.src = "";
         setTimeout(function() {
           loadVideo();
           document.getElementById("vrc").innerHTML = ++respawnCount; 
