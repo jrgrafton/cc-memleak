@@ -1,0 +1,37 @@
+<html>
+<h1>Chromecast Memory Leak Tests</h1>
+<h2>Video respawn count: <span id="vrc">0</span><h2>
+<body>
+
+  <script>
+  var videoString = '<video id="video" width="640" height="320" ' +
+                    'src="http://techslides.com/demos/sample-videos/small.mp4">';
+  var respawnCount = 0;
+
+  window.onload = function() {
+    loadVideo();
+
+    function loadVideo() {
+      // Destroy old video
+      var videoElement = document.getElementById("video");
+      videoElement &&
+      videoElement.parentNode &&
+      videoElement.parentNode.removeChild(videoElement);
+
+      // Insert new video
+      document.body.insertAdjacentHTML('beforeend', videoString);
+      videoElement = document.getElementById("video");
+
+      // Play video
+      videoElement.play();
+
+      // Bind to end event
+      videoElement.onended = function(){ 
+        loadVideo();
+        document.getElementById("vrc").innerHTML = ++respawnCount; 
+      };
+    }
+  }
+  </script>
+</body>
+</html>
